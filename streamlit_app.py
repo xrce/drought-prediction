@@ -284,13 +284,13 @@ if iklim is not None:
     rmse = mean_squared_error(test, predictions, squared=False)
     mae = mean_absolute_error(test, predictions)
 
-    if option == 'Show Predict':
+    if option == 'Show Etc':
         st.write('RMSE:', rmse)
         st.write('MAE:', mae)
 
-    if option == 'Show Predict': st.subheader('Prediksi kekeringan')
+    if option == 'Show Analytic' or option == 'Show Predict' or option == 'Show Etc': st.subheader('Prediksi kekeringan')
     future_predictions = model_fit.predict(start=len(data), end=len(data)+200)
-    if option == 'Show Predict':
+    if option == 'Show Etc':
         st.write('Prediksi kekeringan:')
         st.write(future_predictions)
 
@@ -298,7 +298,7 @@ if iklim is not None:
 
     plot_predict(best_model)
     plt.title('Forecast Confidence Interval')
-    if option == 'Show Predict': st.pyplot()
+    if option == 'Show Etc': st.pyplot()
 
     data_predict = pd.DataFrame({'Tanggal': data['Tanggal'], 'RR': curah_hujan})
     day = 30
@@ -326,7 +326,7 @@ if iklim is not None:
     plt.ylabel('Curah Hujan (mm)')
     plt.axvline(x=data_predict['Tanggal'].iloc[-day], color='r', linestyle='--', label='Prediksi 1 Bulan Kedepan')
     plt.legend()
-    if option == 'Show Predict': st.pyplot()
+    if option == 'Show Etc': st.pyplot()
 
     monthly_rainfall = data.set_index('Tanggal')['RR'].resample('M').sum()
     mean_rainfall = monthly_rainfall.mean()
@@ -341,7 +341,7 @@ if iklim is not None:
     plt.xlabel('Tanggal')
     plt.ylabel('SPI Value')
     plt.grid(True)
-    if option == 'Show Predict': st.pyplot()
+    if option == 'Show Analytic': st.pyplot()
 
     data['Total_RR'] = data['RR'].cumsum()
     mean_rr = data['Total_RR'].mean()
@@ -393,7 +393,7 @@ if iklim is not None:
     data_predict = data_predict.reset_index(drop=True)
 
     data_predict['Kategori Kekeringan'] = pd.cut(data_predict['SPI'], bins=[-np.inf, -2, -1.5, -1, 1, 1.5, 2, np.inf], labels=['Ekstrim Kering', 'Sangat Kering', 'Kering', 'Normal', 'Sedikit Basah', 'Basah', 'Sangat Basah'])
-    if option == 'Show Predict': st.write(data_predict)
+    if option == 'Show Etc': st.write(data_predict)
     
     subset = ['Prediksi Curah Hujan (mm)', 'Lower CI', 'Upper CI', 'Total_RR', 'SPI', 'Kategori Kekeringan']
 
