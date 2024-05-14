@@ -385,7 +385,7 @@ if iklim is not None:
         st.write('MAE:', mae)
 
     if option == 'Show Predict': st.write('Prediksi Curah Hujan')
-    data_predict['Total_RR'] = data_predict['Prediksi Curah Hujan (mm)'].cumsum()
+    data_predict['Total_RR'] = data_predict['Prediksi Curah Hujan (mm)']
     mean_rr = data_predict['Total_RR'].mean()
     std_dev_rr = data_predict['Total_RR'].std()
 
