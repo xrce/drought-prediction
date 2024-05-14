@@ -11,7 +11,7 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 iklim = st.file_uploader("Data Iklim Harian", type=["xlsx"])
 kombinasi = st.file_uploader("Kombinasi Model", type=["xlsx"])
 show_analytic = st.sidebar.checkbox('Show Analytic')
-show_predict = st.sidebar.checkbox('Show Predict')
+show_predict = st.sidebar.checkbox('Show Predict', value=True)
 show_etc = st.sidebar.checkbox('Show Etc')
 
 if iklim is not None and kombinasi is not None:
