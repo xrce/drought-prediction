@@ -136,11 +136,11 @@ if iklim is not None:
     if option == 'Show Analytic': st.subheader('Melihat plot autokorelasi (ACF) dan plot autokorelasi parsial (PACF)')
     from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 
-    plot_acf(curah_hujan, lags=50)
+    plot_acf(curah_hujan, lags=30)
     plt.title('ACF')
     if option == 'Show Analytic': st.pyplot()
 
-    plot_pacf(curah_hujan, lags=50)
+    plot_pacf(curah_hujan, lags=30)
     plt.title('PACF')
     if option == 'Show Analytic': st.pyplot()
 
@@ -400,4 +400,8 @@ if iklim is not None:
     classification = data_predict.dropna(subset=subset)
     classification = classification.drop('RR', axis=1)
 
-    if option == 'Show Predict': st.write(classification)
+    if option == 'Show Predict':
+        date_option = st.sidebar.selectbox('Pilih Tanggal', [None] + classification['Tanggal'].dt.strftime('%Y-%m-%d').unique().tolist())
+        selected_data = classification[classification['Tanggal'] == pd.to_datetime(date_option)] if date_option is not None else classification
+        print(date_option)
+        st.write(selected_data)
