@@ -198,6 +198,7 @@ if iklim is not None:
     best_model = SARIMAX(curah_hujan, seasonal_order=(p, d, q, s)).fit()
 
     if option == 'Show Analytic':
+        st.subheader('Model Sarima')
         st.write(best_model.summary())
         st.write("---------------------------------------------------------------------")
 
