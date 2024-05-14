@@ -9,12 +9,11 @@ from statsmodels.tsa.seasonal import seasonal_decompose
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 iklim = st.file_uploader("Data Iklim Harian", type=["xlsx"])
-kombinasi = st.file_uploader("Kombinasi Model", type=["xlsx"])
 show_analytic = st.sidebar.checkbox('Show Analytic')
 show_predict = st.sidebar.checkbox('Show Predict', value=True)
 show_etc = st.sidebar.checkbox('Show Etc')
 
-if iklim is not None and kombinasi is not None:
+if iklim is not None:
     data = pd.read_excel(iklim)
 
     st.title('Data Analysis Dashboard')
@@ -177,7 +176,7 @@ if iklim is not None and kombinasi is not None:
     if show_etc:
         st.subheader('Tabel model kombinasi dan AIC')
         st.write("\nTable of Model Combinations and AIC:")
-    df_from_excel = pd.read_excel(kombinasi)
+    df_from_excel = pd.read_excel('Kombinasi_Model.xlsx')
     if show_etc: st.write(df_from_excel)
     
     # Menemukan indeks baris dengan nilai AIC terkecil
