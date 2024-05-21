@@ -288,7 +288,7 @@ if iklim is not None:
         st.write('RMSE:', rmse)
         st.write('MAE:', mae)
 
-    if option == 'Show Analytic' or option == 'Show Predict' or option == 'Show Etc': st.subheader('Prediksi kekeringan')
+    if option == 'Show Predict': st.subheader('Prediksi kekeringan')
     future_predictions = model_fit.predict(start=len(data), end=len(data)+200)
     if option == 'Show Etc':
         st.write('Prediksi kekeringan:')
@@ -356,7 +356,7 @@ if iklim is not None:
     plt.xlabel('Tanggal')
     plt.ylabel('SPI')
     plt.legend()
-    if option == 'Show Predict': st.pyplot()
+    if option == 'Show Etc': st.pyplot()
 
     plt.figure(figsize=(12, 8))
     plt.plot(data_predict['Tanggal'], data_predict['RR'], color='black', label='Data Observasi')
