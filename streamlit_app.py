@@ -403,7 +403,7 @@ if iklim is not None:
     if option == 'Show Predict':
         classification['Date'] = pd.to_datetime(classification['Date'])
 
-        st.title('Date Predict')
+        st.title('Drought Prediction by Date')
 
         # Date selection
         if 'date_option' not in st.session_state:
@@ -417,7 +417,7 @@ if iklim is not None:
 
         if date_option:
             selected_data = classification[classification['Date'] == pd.to_datetime(date_option)]
-            st.write(f"**Date Predict**: {date_option}")
+            st.write(f"**Drought Prediction**: {date_option}")
 
             if not selected_data.empty:
                 predicted_rainfall = selected_data['Predicted Rainfall (mm)'].values[0]
