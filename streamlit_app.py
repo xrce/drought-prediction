@@ -413,13 +413,17 @@ if iklim is not None:
     if option == 'Show Predict':
         classification['Date'] = pd.to_datetime(classification['Date'])
 
-        st.title('Drought Prediction by Date')
+        st.title('Drought Predict')
 
         # Date selection
         if 'date_option' not in st.session_state:
             st.session_state.date_option = None
 
-        date_option = st.selectbox('Select Date', [None] + classification['Date'].dt.strftime('%Y-%m-%d').unique().tolist(), index=(classification['Date'].dt.strftime('%Y-%m-%d').unique().tolist().index(st.session_state.date_option) + 1 if st.session_state.date_option else 0))
+        date_option = st.selectbox(
+            'Select Date',
+            [None] + classification['Date'].dt.strftime('%Y-%m-%d').unique().tolist(),
+            index=(classification['Date'].dt.strftime('%Y-%m-%d').unique().tolist().index(st.session_state.date_option) + 1 if st.session_state.date_option else 0)
+        )
 
         # Update session state with the selected date
         if date_option != st.session_state['date_option']:
@@ -427,7 +431,6 @@ if iklim is not None:
 
         if date_option:
             selected_data = classification[classification['Date'] == pd.to_datetime(date_option)]
-            st.write(f"**Drought Prediction**: {date_option}")
 
             if not selected_data.empty:
                 predicted_rainfall = selected_data['Predicted Rainfall (mm)'].values[0]
@@ -435,12 +438,34 @@ if iklim is not None:
                 upper_ci = selected_data['Upper CI'].values[0]
                 spi = selected_data['SPI'].values[0]
                 drought_category = selected_data['Drought Category'].values[0]
+                st.markdown("""
+                    <style>
+                    .big-font {
+                        font-size:20px !important;
+                        font-weight: bold;
+                    }
+                    </style>
+                    """, unsafe_allow_html=True)
 
-                st.write(f"**Predicted Rainfall (mm)**: {predicted_rainfall}")
-                st.write(f"**Lower CI**: {lower_ci}")   
-                st.write(f"**Upper CI**: {upper_ci}")
-                st.write(f"**SPI**: {spi}")
-                st.write(f"**Drought Category**: {drought_category}")
+                col1, col2, col3 = st.columns(3)
+                with col1:
+                    st.markdown(f'<p class="big-font">Predicted Rainfall</p>', unsafe_allow_html=True)
+                    st.metric(label="", value=f"{predicted_rainfall:.3f}")
+                with col2:
+                    st.markdown(f'<p class="big-font">Lower CI</p>', unsafe_allow_html=True)
+                    st.metric(label="", value=f"{lower_ci:.3f}")
+                with col3:
+                    st.markdown(f'<p class="big-font">Upper CI</p>', unsafe_allow_html=True)
+                    st.metric(label="", value=f"{upper_ci:.3f}")
+                st.write("\n\n\n")
+
+                col_empty1, col4, col5, col_empty2 = st.columns([1, 2, 2, 1])
+                with col4:
+                    st.markdown(f'<p class="big-font">SPI</p>', unsafe_allow_html=True)
+                    st.metric(label="", value=f"{spi:.3f}")
+                with col5:
+                    st.markdown(f'<p class="big-font">Drought Category</p>', unsafe_allow_html=True)
+                    st.metric(label="", value=drought_category)
             else:
                 st.write("No data available for the selected date.")
         else:
